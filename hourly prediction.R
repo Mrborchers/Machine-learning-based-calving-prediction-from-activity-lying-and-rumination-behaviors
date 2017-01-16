@@ -12,7 +12,7 @@ library(randomForest) ## package for random forest
 calved <- read.csv("C:\\Users\\Desktop\\hour.csv", header=T)
 
 ##########################################
-### quick look at the graphs of avgactivity ~ daysprior
+### quick look at the graphs of behaviors ~ daysprior
 ##########################################
 
 xyplot(avgtotalmotion ~ hoursbefore, jitter.x=T, type=c("p","smooth"),cex=0.5,lwd=3,data=calved, subset=(hoursbefore>=-252 ))
@@ -29,16 +29,13 @@ xyplot(avgrumination ~ hoursbefore, jitter.x=T, type=c("p","smooth"),cex=0.5,lwd
 
 xyplot(avgactivity ~ hoursbefore, jitter.x=T, type=c("p","smooth"),cex=0.5,lwd=3,data=calved, subset=(hoursbefore>=-252))
 
-############################
-### 10 fold cross validation
-############################
 
-fitControl <- trainControl(## 4-fold CV
-                           method = "LOOCV",
-#                           number = 4,
-                           ## repeated ten times
-#                           repeats = 10,
-                         classProbs = T)
+############################################
+#### Leave one out cross validation
+############################################
+fitControl <- trainControl(
+  method = "LOOCV",
+  classProbs = T)
 
 ##########################################
 ## select only hoursbefore

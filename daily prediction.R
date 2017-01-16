@@ -14,7 +14,7 @@ calved <- read.csv("C:\\Users\\Desktop\\day.csv", header=T)
 
 
 ##########################################
-### quick look at the graphs of activity ~ daysprior
+### quick look at the graphs of behaviors ~ daysprior
 ##########################################
 
 xyplot(mtotalmotion ~ daysprior, jitter.x=T, type=c("p","smooth"),cex=0.5,lwd=3,data=calved)
@@ -31,17 +31,14 @@ xyplot(mrumination ~ daysprior, jitter.x=T, type=c("p","smooth"),cex=0.5,lwd=3,d
 
 
 ############################################
-#### 10 fold cross validation
+#### Leave one out cross validation
 ############################################
-fitControl <- trainControl(## 10-fold CV
+fitControl <- trainControl(
                            method = "LOOCV",
-#                           number = 4,
-                           ## repeated ten times
-#                           repeats = 10,
-				   classProbs = T)
+                           classProbs = T)
 
 ##########################################
-## select only daysprior = -14, -7 and 0 for the classification
+## select only daysprior for the classification
 ##########################################
 
 trial1 <- subset(calved, (daysprior==-1 | daysprior==-2 | daysprior==-3 |daysprior==-4| daysprior==-5 | daysprior==-6 | daysprior==-7 | daysprior==-8 |	daysprior==-9 | daysprior==-10 | daysprior==-11 | daysprior==-12 | daysprior==-13 |	daysprior==-14))
@@ -60,7 +57,7 @@ summary(trial1)
 
 set.seed(45)
 
-### randomly select 70% data for training the algorithm, and 30% for testing from subset of data trial 
+### randomly select 80% data for training the algorithm, and 20% for testing from subset of data trial 
 
 inTrain1 <- createDataPartition(y=trial1$daysprior, p=0.8, list=F)
 
